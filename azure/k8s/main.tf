@@ -3,6 +3,9 @@ provider "azurerm" {
   features {}
 }
 
+variable "sp_client_id" {}
+variable "sp_client_secret" {}
+
 resource "azurerm_resource_group" "non_existing_tags_rg" {
   name     = "non_existing_tags_rg"
   location = "northeurope"
