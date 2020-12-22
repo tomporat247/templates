@@ -1,0 +1,13 @@
+version: 1
+
+deploy:
+  steps:
+    terraformApply:
+      after:
+        - echo "Value is $(terraform output env_customer_id)"
+        
+destroy:
+  steps:
+    terraformDestroy:
+      before:
+        - echo "Value is $(terraform output env_customer_id)"
