@@ -1,3 +1,3 @@
-class test988 {
+class tes4t988 {
 
 }
