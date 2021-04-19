@@ -1,3 +1,3 @@
-class tes4t9sss8sss8 {
+class tes4t9sss8sssss8 {
 
 }
