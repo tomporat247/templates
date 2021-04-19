@@ -1,3 +1,3 @@
-class test9 {
+class test988 {
 
 }
