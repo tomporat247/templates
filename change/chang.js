@@ -1,3 +1,3 @@
-class test6 {
+class test8 {
 
 }
