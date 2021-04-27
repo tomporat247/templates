@@ -1,3 +1,3 @@
-class d {
+class y {
 
 }
