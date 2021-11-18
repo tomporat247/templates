@@ -8,7 +8,7 @@ module "errorcheck_valid" {
   source = "rhythmictech/errorcheck/terraform"
 
   assert = local.compare == local.testSuccess
-  error_message = "Your assertion is not valid"
+  error_message = "Your assertion is not valid 1"
 }
 
 module "errorcheck_invalid" {
