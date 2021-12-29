@@ -1,0 +1,10 @@
+version: 1
+
+deploy:
+  steps:
+    terraformInit:
+      after:
+        - echo "cli v1"
+        - ./checker-v1.sh
+        - echo "cli v2"
+        - ./checker-v2.sh
