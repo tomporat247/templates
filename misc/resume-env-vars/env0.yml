@@ -2,9 +2,7 @@ version: 1
 
 deploy:
   onSuccess:
-    - echo "key"
-    - echo $ENV0_TOM_KEY
-    - echo "reviewer id"
-    - echo $ENV0_TOM_REVIEWER_id
-    - echo "reviewer full"
-    - echo "$ENV0_TOM_REVIEWER"
+    - echo "reviewer name"
+    - echo $ENV0_REVIEWER_NAME
+    - echo "reviewer email"
+    - echo $ENV0_REVIEWER_EMAIL
