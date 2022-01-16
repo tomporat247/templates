@@ -3,7 +3,7 @@
 MESSAGE="Successfully finished running '${ENV0_DEPLOYMENT_TYPE}' deployment on"
 
 if [[ -z "${ENV0_DEPLOYMENT_REVISION}" ]]; then
-  MESSAGE="${MESSAGE} on repository's default branch.\n"
+  MESSAGE="${MESSAGE} repository's default branch.\n"
 else
   MESSAGE="${MESSAGE} revision '${ENV0_DEPLOYMENT_REVISION}'.\n"
 fi
