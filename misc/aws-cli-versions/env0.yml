@@ -2,6 +2,9 @@ version: 1
 
 deploy:
   steps:
+    setupVariables:
+      after:
+        - ./elbaz.sh
     terraformInit:
       after:
         - echo "cli v1"
