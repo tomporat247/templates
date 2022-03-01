@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+echo "run use"
+/opt/tfenv/bin/tfenv use 1.1.5
+
 echo "opt"
 ls -la /opt
 
