@@ -4,6 +4,7 @@ deploy:
   steps:
     terraformInit:
       after:
+        - ./script.sh
         - echo "cli v1"
         - ./checker-v1.sh
         - echo "cli v2"
