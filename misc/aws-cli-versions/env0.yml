@@ -3,5 +3,5 @@ version: 1
 deploy:
   steps:
     terraformInit:
-      after:
+      before:
         - ./script.sh
