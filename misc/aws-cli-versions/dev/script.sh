@@ -3,7 +3,7 @@ echo "which2"
 which tfenv
 
 echo "terragrunt"
-cat /opt/tgenv/bin/terragrunt
+cat /opt/tfenv/bin/terraform
 
 echo "run use"
 /opt/tfenv/bin/tfenv use 1.1.5
