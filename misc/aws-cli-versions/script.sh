@@ -13,3 +13,6 @@ echo "list"
 
 echo "version"
 /opt/tfenv/bin/tfenv version-name
+
+echo "path"
+echo "${TFENV_TERRAFORM_VERSION}"
