@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-echo "which"
+echo "which2"
 which tfenv
 
 echo "run use"
