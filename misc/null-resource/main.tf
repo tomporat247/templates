@@ -8,7 +8,7 @@ resource "random_integer" "time" {
 
 
 resource "null_resource" "null" {
-  depends_on = [time_sleep.wait_30_seconds]
+  depends_on = [time_sleep.wait]
 }
 
 resource "time_sleep" "wait" {
