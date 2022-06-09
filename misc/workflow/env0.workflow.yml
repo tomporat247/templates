@@ -1,0 +1,24 @@
+environments:
+  infrastructure:
+    name: infrastructure
+    templateName: 'Infrastructure'
+  shared:
+    name: shared
+    templateName: 'Shared'
+  service:
+    name: service
+    templateName: 'Service'
+    needs:
+      - infrastructure
+      - shared
+  frontend:
+    name: frontend
+    templateName: 'Frontend'
+    needs:
+      - infrastructure
+      - shared
+  dns:
+    name: DNS
+    templateName: 'DNS'
+    needs:
+      - frontend
