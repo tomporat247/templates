@@ -1,0 +1,34 @@
+environments:
+  root:
+    name: root
+    templateName: 'null'
+  middleA:
+    name: middleA
+    templateName: 'null'
+    needs:
+      - root
+  middleB:
+    name: middleB
+    templateName: 'fail'
+    needs:
+      - root
+  leafAA:
+    name: leafAA
+    templateName: 'null'
+    needs:
+      - middleA
+  leafAB:
+    name: leafAB
+    templateName: 'null'
+    needs:
+      - middleA
+  leafBA:
+    name: leafBA
+    templateName: 'null'
+    needs:
+      - middleB
+  leafBB:
+    name: leafBB
+    templateName: 'null'
+    needs:
+      - middleB
