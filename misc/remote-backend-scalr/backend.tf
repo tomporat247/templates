@@ -1,6 +1,6 @@
 terraform {
   backend "remote" {
-    hostname = "https://scalr.io/"
+    hostname = "https://tomporat247.scalr.io/"
     organization = "tomporat247"
     workspaces {
       name = "templates"
