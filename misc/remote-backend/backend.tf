@@ -5,4 +5,6 @@ terraform {
       name = "templates"
     }
   }
+
+  required_version = "= 1.2.3"
 }

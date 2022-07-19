@@ -1,0 +1,3 @@
+variable "tom" {
+  default = "value"
+}
