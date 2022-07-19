@@ -1,3 +1,3 @@
 variable "tom" {
-  default = "value2"
+  default = "value"
 }
