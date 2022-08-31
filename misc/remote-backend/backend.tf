@@ -1,8 +1,10 @@
 terraform {
   backend "remote" {
-    organization = "tomporat247"
+    hostname = "backend-dev.api.dev.env0.com"
+    organization = "737bb6df-1d96-4cec-825b-1e957dc54b95"
+
     workspaces {
-      name = "templates"
+      name = "qa"
     }
   }
 
