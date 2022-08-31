@@ -7,6 +7,4 @@ terraform {
       name = "tom"
     }
   }
-
-  required_version = "= 1.2.3"
 }
