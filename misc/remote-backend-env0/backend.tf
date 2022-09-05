@@ -4,7 +4,7 @@ terraform {
     organization = "a24d5d61-8c2b-4a58-8917-9a663cf1c4c0"
 
     workspaces {
-      name = "tom"
+      name = "tom-qa"
     }
   }
 }
