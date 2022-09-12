@@ -14,6 +14,6 @@ terraform {
 }
 
 
-provider "null_resource" {
+provider "null" {
   version = "3.1.1"
 }
