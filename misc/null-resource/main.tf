@@ -1,7 +1,3 @@
-resource "null_resource" "null" {
-  count = 2
-}
-
 terraform {
   required_version = "1.2.2"
 
@@ -13,4 +9,8 @@ terraform {
 
 provider "null" {
   version = "3.1.1"
+}
+
+resource "null_resource" "null" {
+  count = 2
 }
