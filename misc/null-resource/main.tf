@@ -1,5 +1,5 @@
 resource "null_resource" "null" {
-  count = 2
+  count = 10000
 }
 
 terraform {
