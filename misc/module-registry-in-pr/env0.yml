@@ -1,0 +1,7 @@
+version: 1
+
+deploy:
+  steps:
+    terraformInit:
+      before:
+        - git config --global url."http://admin:NTg2NTQ0ODA0NDY5OrAmsuuV9UAbxlU+mJTQSqmfeP8p@35.172.165.27:7990/scm/qap/qa-module-registry-support.git".insteadOf http://35.172.165.27:7990/scm/qap/qa-module-registry-support.git
