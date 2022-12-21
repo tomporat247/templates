@@ -8,3 +8,4 @@ deploy:
           inputs:
             directory: .
             version: latest
+            flags: --format=json
