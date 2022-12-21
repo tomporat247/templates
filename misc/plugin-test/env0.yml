@@ -7,4 +7,4 @@ deploy:
           use: https://github.com/env0/env0-tflint-plugin
           inputs:
             directory: .
-            version: v0.42.2
+            version: latest
