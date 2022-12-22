@@ -4,7 +4,8 @@ deploy:
     terraformInit:
       before:
         - name: My Step Name # The name that will be presented in the UI for this step
-          use: https://github.com/env0/env0-tfsec-plugin
+          use: https://github.com/env0/env0-tflint-plugin
           inputs:
             directory: .
-            version: v1.28.0
+            version: v0.42.2
+            flags: --format=json
