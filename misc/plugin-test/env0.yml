@@ -8,4 +8,4 @@ deploy:
           inputs:
             directory: .
             version: v1.28.0
-            flags: --tfvars-file
+            flags: --concise-output
