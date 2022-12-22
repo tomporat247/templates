@@ -7,4 +7,4 @@ deploy:
           use: https://github.com/env0/env0-tfsec-plugin
           inputs:
             directory: .
-            version: v1.28.0
+            version: latest
