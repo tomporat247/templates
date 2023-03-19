@@ -4,7 +4,7 @@ deploy:
     terraformInit:
       before:
         - name: My Step Name # The name that will be presented in the UI for this step
-          use: https://github.com/env0/env0-tfsec-plugin@chore-better-sha-replacement
+          use: https://github.com/env0/env0-tfsec-plugin
           inputs:
             directory: .
             version: v1.28.0
