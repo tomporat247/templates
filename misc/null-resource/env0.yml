@@ -1,0 +1,29 @@
+version: 1
+
+deploy:
+  steps:
+    helmDiff:
+      before:
+        - echo "before helm diff"
+      after:
+        - echo "after helm diff"
+
+    helmUpgrade:
+      before:
+        - echo "before helm upgrade"
+      after:
+        - echo "after helm upgrade"
+
+destroy:
+  steps:
+    helmDiff:
+      before:
+        - echo "before helm diff"
+      after:
+        - echo "after helm diff"
+
+    helmUninstall:
+      before:
+        - echo "before helm uninstall"
+      after:
+        - echo "after helm uninstall"
