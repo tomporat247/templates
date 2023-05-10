@@ -1,0 +1,13 @@
+version: 1
+
+deploy:
+  steps:
+    helmDiff:
+      before:
+        - aws eks --region=us-east-1 update-kubeconfig --name kushield
+
+destroy:
+  steps:
+    helmDiff:
+      before:
+        - aws eks --region=us-east-1 update-kubeconfig --name kushield
