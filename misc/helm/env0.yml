@@ -5,6 +5,7 @@ deploy:
     helmDiff:
       before:
         - awsv2 eks --region=us-east-1 update-kubeconfig --name kushield
+        - cat /home/node/.kube/config
 
 destroy:
   steps:
