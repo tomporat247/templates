@@ -5,7 +5,7 @@ deploy:
     helmDiff:
       before:
         - awsv2 eks --region=us-east-1 update-kubeconfig --name kushield
-        - sed -i 's/command: aws/command: awsv2/g' ~/.kube/config
+        - "sed -i 's/command: aws/command: awsv2/g' ~/.kube/config"
         - cat /home/node/.kube/config
 
 destroy:
