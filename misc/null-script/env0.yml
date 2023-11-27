@@ -2,10 +2,6 @@ version: 1
 
 deploy:
   steps:
-    setupVariables:
-      after:
-        - printenv
-        - printenv
     terraformOutput:
       after:
-        - printenv
+        - cat $ENV0_TF_PLAN_JSON
