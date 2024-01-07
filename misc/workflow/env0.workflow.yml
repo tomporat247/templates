@@ -2,26 +2,26 @@ environments:
   rootService1:
     name: rootService1
     templateName: 'null'
-    workspaceName: '1'
+    workspace: '1'
   rootService2:
     name: rootService2
     templateName: 'null'
-    workspaceName: '2'
+    workspace: '2'
   middleService1:
     name: middleService1
     templateName: 'null'
-    workspaceName: '3'
+    workspace: '3'
     needs:
       - rootService1
   middleService2:
     name: middleService2
     templateName: 'null'
-    workspaceName: '4'
+    workspace: '4'
     needs:
       - rootService1
   finalService:
     name: finalService
     templateName: 'null'
-    workspaceName: '5'
+    workspace: '5'
     needs:
       - middleService1
