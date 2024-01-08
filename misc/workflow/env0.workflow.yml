@@ -2,40 +2,40 @@ environments:
   root:
     name: root
     templateName: 'null'
-    workspace: 'x1'
+    workspace: 'y1'
   middleA:
     name: middleA
     templateName: 'null'
-    workspace: 'x2'
+    workspace: 'y2'
     needs:
       - root
   middleB:
     name: middleB
     templateName: 'fail'
-    workspace: 'x3'
+    workspace: 'y3'
     needs:
       - root
   leafAA:
     name: leafAA
     templateName: 'null'
-    workspace: 'x4'
+    workspace: 'y4'
     needs:
       - middleA
   leafAB:
     name: leafAB
     templateName: 'null'
-    workspace: 'x5'
+    workspace: 'y5'
     needs:
       - middleA
   leafBA:
     name: leafBA
     templateName: 'null'
-    workspace: 'x6'
+    workspace: 'y6'
     needs:
       - middleB
   leafBB:
     name: leafBB
     templateName: 'null'
-    workspace: 'x7'
+    workspace: 'y7'
     needs:
       - middleB
