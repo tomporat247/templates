@@ -1,24 +1,29 @@
 environments:
   infrastructure:
     name: infrastructure
-    templateName: 'Infrastructure'
+    templateName: 'null'
+    workspace: 'infrastructure'
   shared:
     name: shared
-    templateName: 'Shared'
+    templateName: 'null'
+    workspace: 'shared'
   service:
     name: service
-    templateName: 'Service'
+    templateName: 'null'
+    workspace: 'service'
     needs:
       - infrastructure
       - shared
   frontend:
     name: frontend
-    templateName: 'Frontend'
+    templateName: 'null'
+    workspace: 'fe'
     needs:
       - infrastructure
       - shared
   dns:
     name: DNS
-    templateName: 'DNS'
+    templateName: 'null'
+    workspace: 'dns'
     needs:
       - frontend
