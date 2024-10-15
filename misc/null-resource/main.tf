@@ -14,3 +14,7 @@ resource "null_resource" "null" {
 resource "time_sleep" "wait" {
   create_duration = "${random_integer.time.result}s"
 }
+
+output "x" {
+  value = "y"
+}
