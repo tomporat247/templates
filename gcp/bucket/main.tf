@@ -3,14 +3,6 @@ provider "google" {
   region      = var.region
 }
 
-resource "google_storage_bucket" "static-site" {
-  name          = var.bucket_name
-  location      = var.bucket_location
-  force_destroy = true
-
-  uniform_bucket_level_access = true
-}
-
 resource "google_secret_manager_secret" "example" {
   secret_id = var.secret_id
 
