@@ -17,6 +17,17 @@ resource "google_secret_manager_secret" "example" {
   labels = {
     label = "my-label"
   }
+
+  replication {
+    user_managed {
+      replicas {
+        location = "us-central1"
+      }
+      replicas {
+        location = "us-east1"
+      }
+    }
+  }
 }
 
 resource "google_secret_manager_secret_version" "example_version" {
