@@ -13,8 +13,9 @@ resource "google_storage_bucket" "static-site" {
 
 resource "google_secret_manager_secret" "example" {
   secret_id = var.secret_id
-  replication {
-    automatic = true
+
+  labels = {
+    label = "my-label"
   }
 }
 
