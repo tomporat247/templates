@@ -10,3 +10,15 @@ resource "google_storage_bucket" "static-site" {
 
   uniform_bucket_level_access = true
 }
+
+resource "google_secret_manager_secret" "example" {
+  secret_id = var.secret_id
+  replication {
+    automatic = true
+  }
+}
+
+resource "google_secret_manager_secret_version" "example_version" {
+  secret      = google_secret_manager_secret.example.id
+  secret_data = var.secret_data
+}

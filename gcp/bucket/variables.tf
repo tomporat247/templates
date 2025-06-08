@@ -17,3 +17,13 @@ variable "bucket_location" {
   type = string
   default = "EU"
 }
+
+variable "secret_id" {
+  type = string
+  default = "tom-secret-1"
+}
+
+variable "secret_data" {
+  type = string
+  default = "secret"
+}
