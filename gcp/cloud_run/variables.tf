@@ -19,5 +19,5 @@ variable "service_name" {
 variable "image" {
   description = "The container image to deploy"
   type        = string
-  default     = "gcr.io/distroless/static:nonroot"
+  default     = "gcr.io/cloudrun/hello"
 }
