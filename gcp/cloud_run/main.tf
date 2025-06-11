@@ -45,3 +45,11 @@ resource "google_cloud_run_service_iam_policy" "all_users" {
     ]
   })
 }
+
+resource "google_cloud_run_service_iam_member" "admin" {
+  location = google_cloud_run_service.default.location
+  project  = google_cloud_run_service.default.project
+  service  = google_cloud_run_service.default.name
+  role     = "roles/run.admin"
+  member   = "user:tom.porat@env0.com"
+}
