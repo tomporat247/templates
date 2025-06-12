@@ -4,14 +4,14 @@ variable "project_id" {
   default     = "env0project"
 }
 
-variable "region" {
-  description = "The GCP region"
-  type        = string
-  default     = "us-central1"
+variable "regions" {
+  description = "The GCP regions to deploy the service to"
+  type        = list(string)
+  default     = ["us-central1", "europe-west1"]
 }
 
 variable "service_name" {
-  description = "The name of the Cloud Run service"
+  description = "The base name of the Cloud Run service"
   type        = string
   default     = "tom-test-service"
 }

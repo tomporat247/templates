@@ -10,12 +10,12 @@ terraform {
 
 provider "google" {
   project = var.project_id
-  region  = var.region
 }
 
 resource "google_cloud_run_service" "default" {
+  for_each = toset(var.regions)
   name     = var.service_name
-  location = var.region
+  location = each.value
 
   template {
     spec {
@@ -32,9 +32,10 @@ resource "google_cloud_run_service" "default" {
 }
 
 resource "google_cloud_run_service_iam_policy" "all_users" {
-  location    = google_cloud_run_service.default.location
+  for_each    = google_cloud_run_service.default
+  location    = each.value.location
   project     = var.project_id
-  service     = google_cloud_run_service.default.name
+  service     = each.value.name
 
   policy_data = jsonencode({
     "bindings" : [
@@ -47,9 +48,10 @@ resource "google_cloud_run_service_iam_policy" "all_users" {
 }
 
 resource "google_cloud_run_service_iam_member" "admin" {
-  location = google_cloud_run_service.default.location
-  project  = google_cloud_run_service.default.project
-  service  = google_cloud_run_service.default.name
+  for_each = google_cloud_run_service.default
+  location = each.value.location
+  project  = each.value.project
+  service  = each.value.name
   role     = "roles/run.admin"
   member   = "user:tom.porat@env0.com"
 }
