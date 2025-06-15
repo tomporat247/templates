@@ -20,7 +20,7 @@ variable "bucket_location" {
 
 variable "secret_id" {
   type = string
-  default = "tom-secret-1"
+  default = "tom-secret-2"
 }
 
 variable "secret_data" {
