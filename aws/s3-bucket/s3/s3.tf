@@ -7,6 +7,10 @@ terraform {
   }
 }
 
+provider "aws" {
+  region = "us-east-1"
+}
+
 # Get information about the current AWS user
 data "aws_caller_identity" "current" {}
 
