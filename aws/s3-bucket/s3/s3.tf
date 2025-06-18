@@ -13,6 +13,10 @@ terraform {
 
 provider "aws" {
   region  = "us-east-1"
+  skip_requesting_account_id = true
+  endpoints {
+    s3 = "http://localhost:4566"
+  }
 }
 
 provider "random" {}
@@ -71,8 +75,8 @@ resource "aws_s3_bucket_policy" "website_bucket_policy" {
 POLICY
 }
 
-resource "aws_s3_bucket_object" "object" {
-  bucket = "${aws_s3_bucket.website_bucket.bucket}"
+resource "aws_s3_object" "object" {
+  bucket = aws_s3_bucket.website_bucket.bucket
   key    = "index.html"
   source = "../index.html"
   content_type = "text/html"
