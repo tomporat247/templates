@@ -1,0 +1,14 @@
+environments:
+  node-A:
+    name: node-A
+    templateName: 'null'
+  node-B:
+    name: node-B
+    templateName: 'null'
+    needs:
+      - node-A
+  node-C:
+    name: node-C
+    templateName: 'null'
+    needs:
+      - node-B
