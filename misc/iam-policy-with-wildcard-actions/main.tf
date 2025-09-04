@@ -12,6 +12,49 @@ provider "aws" {
   region = var.aws_region
 }
 
+locals {
+  s3_actions = var.doNotUseWildCard ? [
+    "s3:GetObject",
+    "s3:PutObject",
+    "s3:DeleteObject",
+    "s3:GetBucketLocation",
+    "s3:ListBucket"
+  ] : ["s3:*"]
+  
+  ec2_actions = var.doNotUseWildCard ? [
+    "ec2:DescribeInstances",
+    "ec2:DescribeImages",
+    "ec2:DescribeSecurityGroups",
+    "ec2:DescribeVpcs",
+    "ec2:DescribeSubnets"
+  ] : ["ec2:Describe*"]
+  
+  iam_actions = var.doNotUseWildCard ? [
+    "iam:GetUser",
+    "iam:GetRole",
+    "iam:GetPolicy",
+    "iam:ListUsers",
+    "iam:ListRoles",
+    "iam:ListPolicies"
+  ] : ["iam:Get*", "iam:List*"]
+  
+  logs_actions = var.doNotUseWildCard ? [
+    "logs:CreateLogGroup",
+    "logs:CreateLogStream",
+    "logs:PutLogEvents",
+    "logs:DescribeLogGroups"
+  ] : ["logs:*"]
+  
+  dynamodb_actions = var.doNotUseWildCard ? [
+    "dynamodb:GetItem",
+    "dynamodb:PutItem",
+    "dynamodb:UpdateItem",
+    "dynamodb:DeleteItem",
+    "dynamodb:Query",
+    "dynamodb:Scan"
+  ] : ["dynamodb:*"]
+}
+
 resource "aws_iam_policy" "wildcard_actions_policy" {
   name        = var.policy_name
   description = var.policy_description
@@ -21,26 +64,21 @@ resource "aws_iam_policy" "wildcard_actions_policy" {
     Statement = [
       {
         Effect = "Allow"
-        Action = [
-          "s3:*",
-          "ec2:Describe*",
-          "iam:Get*",
-          "iam:List*"
-        ]
+        Action = concat(
+          local.s3_actions,
+          local.ec2_actions,
+          local.iam_actions
+        )
         Resource = "*"
       },
       {
         Effect = "Allow"
-        Action = [
-          "logs:*"
-        ]
+        Action = local.logs_actions
         Resource = "arn:aws:logs:*:*:log-group:/aws/lambda/*"
       },
       {
         Effect = "Allow"
-        Action = [
-          "dynamodb:*"
-        ]
+        Action = local.dynamodb_actions
         Resource = [
           "arn:aws:dynamodb:*:*:table/${var.table_prefix}*",
           "arn:aws:dynamodb:*:*:table/${var.table_prefix}*/index/*"

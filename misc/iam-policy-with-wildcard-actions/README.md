@@ -16,6 +16,15 @@ This template demonstrates how to create IAM policies using wildcard actions in 
 4. **Scoped Wildcards**: `logs:*` with specific resource ARN patterns
 5. **Resource Pattern Matching**: DynamoDB actions with table name prefixes
 
+## Conditional Wildcard Usage
+
+This template includes a `doNotUseWildCard` variable that allows you to switch between wildcard and specific actions:
+
+- **When `doNotUseWildCard = false` (default)**: Uses wildcard actions as demonstrated above
+- **When `doNotUseWildCard = true`**: Uses specific, explicit actions instead of wildcards for enhanced security
+
+This feature allows you to easily toggle between broad permissions for development/testing and more restrictive permissions for production environments.
+
 ## Usage
 
 1. Set your desired variables in terraform.tfvars or pass them via CLI
@@ -45,6 +54,7 @@ terraform apply
 | policy_description | Description for the IAM policy | Example IAM policy demonstrating wildcard actions usage |
 | table_prefix | Prefix for DynamoDB tables | example |
 | trusted_service | AWS service that can assume the role | lambda.amazonaws.com |
+| doNotUseWildCard | When true, uses specific actions instead of wildcards | false |
 | tags | Tags to apply to resources | See variables.tf |
 
 ## Outputs

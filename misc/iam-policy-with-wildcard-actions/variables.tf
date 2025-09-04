@@ -28,6 +28,12 @@ variable "trusted_service" {
   default     = "lambda.amazonaws.com"
 }
 
+variable "doNotUseWildCard" {
+  description = "When set to true, avoid using wildcard actions and use specific actions instead"
+  type        = bool
+  default     = false
+}
+
 variable "tags" {
   description = "Tags to apply to IAM resources"
   type        = map(string)
