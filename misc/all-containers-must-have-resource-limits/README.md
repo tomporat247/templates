@@ -12,7 +12,13 @@ This template is designed for testing scenarios where you need to validate that 
 ## Resources Created
 
 - **Namespace**: A test namespace for the deployment
-- **Deployment**: A deployment with 2 containers (main + sidecar) that have **NO resource limits**
+- **Deployment Manifest**: A Kubernetes deployment manifest (YAML) with 2 containers (main + sidecar) that have **NO resource limits** by default
+
+## Template Structure
+
+- **`deployment.yaml.tftpl`**: YAML template file containing the Kubernetes deployment specification
+- **`main.tf`**: Uses `templatefile()` function to render the YAML template with variables
+- **`kubernetes_manifest`**: Terraform resource that applies the rendered YAML to the cluster
 
 ## Container Configuration
 

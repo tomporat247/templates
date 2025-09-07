@@ -5,35 +5,35 @@ output "namespace_name" {
 
 output "deployment_name" {
   description = "Name of the created deployment"
-  value       = kubernetes_deployment.no_resource_limits.metadata[0].name
+  value       = kubernetes_manifest.no_resource_limits.manifest.metadata.name
 }
 
 output "deployment_uid" {
   description = "UID of the created deployment"
-  value       = kubernetes_deployment.no_resource_limits.metadata[0].uid
+  value       = kubernetes_manifest.no_resource_limits.object.metadata.uid
 }
 
 output "deployment_generation" {
   description = "Generation of the deployment"
-  value       = kubernetes_deployment.no_resource_limits.metadata[0].generation
+  value       = kubernetes_manifest.no_resource_limits.object.metadata.generation
 }
 
 output "deployment_labels" {
   description = "Labels applied to the deployment"
-  value       = kubernetes_deployment.no_resource_limits.metadata[0].labels
+  value       = kubernetes_manifest.no_resource_limits.manifest.metadata.labels
 }
 
 output "replica_count" {
   description = "Number of replicas configured"
-  value       = kubernetes_deployment.no_resource_limits.spec[0].replicas
+  value       = kubernetes_manifest.no_resource_limits.manifest.spec.replicas
 }
 
 output "container_names" {
   description = "Names of containers in the deployment"
-  value       = [for container in kubernetes_deployment.no_resource_limits.spec[0].template[0].spec[0].container : container.name]
+  value       = [for container in kubernetes_manifest.no_resource_limits.manifest.spec.template.spec.containers : container.name]
 }
 
 output "container_images" {
   description = "Images used by containers in the deployment"
-  value       = [for container in kubernetes_deployment.no_resource_limits.spec[0].template[0].spec[0].container : container.image]
+  value       = [for container in kubernetes_manifest.no_resource_limits.manifest.spec.template.spec.containers : container.image]
 }

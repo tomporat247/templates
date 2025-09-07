@@ -20,109 +20,21 @@ resource "kubernetes_namespace" "test_namespace" {
   }
 }
 
-resource "kubernetes_deployment" "no_resource_limits" {
-  metadata {
-    name      = var.deployment_name
-    namespace = kubernetes_namespace.test_namespace.metadata[0].name
-    labels    = var.deployment_labels
-  }
-
-  spec {
-    replicas = var.replica_count
-
-    selector {
-      match_labels = {
-        app = var.app_name
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          app = var.app_name
-        }
-      }
-
-      spec {
-        container {
-          name  = var.container_name
-          image = var.container_image
-
-          port {
-            container_port = var.container_port
-          }
-
-          env {
-            name  = "ENV"
-            value = var.environment
-          }
-
-          env {
-            name  = "APP_VERSION"
-            value = var.app_version
-          }
-
-          liveness_probe {
-            http_get {
-              path = var.health_check_path
-              port = var.container_port
-            }
-            initial_delay_seconds = 30
-            period_seconds        = 10
-          }
-
-          readiness_probe {
-            http_get {
-              path = var.health_check_path
-              port = var.container_port
-            }
-            initial_delay_seconds = 5
-            period_seconds        = 5
-          }
-
-          dynamic "resources" {
-            for_each = var.add_resource_limits ? [1] : []
-            content {
-              limits = {
-                cpu    = "500m"
-                memory = "512Mi"
-              }
-              requests = {
-                cpu    = "250m"
-                memory = "256Mi"
-              }
-            }
-          }
-        }
-
-        container {
-          name  = "${var.container_name}-sidecar"
-          image = var.sidecar_image
-
-          port {
-            container_port = var.sidecar_port
-          }
-
-          env {
-            name  = "SIDECAR_MODE"
-            value = "enabled"
-          }
-
-          dynamic "resources" {
-            for_each = var.add_resource_limits ? [1] : []
-            content {
-              limits = {
-                cpu    = "200m"
-                memory = "128Mi"
-              }
-              requests = {
-                cpu    = "100m"
-                memory = "64Mi"
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+resource "kubernetes_manifest" "no_resource_limits" {
+  manifest = yamldecode(templatefile("${path.module}/deployment.yaml.tftpl", {
+    deployment_name    = var.deployment_name
+    namespace_name     = kubernetes_namespace.test_namespace.metadata[0].name
+    deployment_labels  = var.deployment_labels
+    replica_count      = var.replica_count
+    app_name          = var.app_name
+    container_name    = var.container_name
+    container_image   = var.container_image
+    container_port    = var.container_port
+    environment       = var.environment
+    app_version       = var.app_version
+    health_check_path = var.health_check_path
+    sidecar_image     = var.sidecar_image
+    sidecar_port      = var.sidecar_port
+    add_resource_limits = var.add_resource_limits
+  }))
 }

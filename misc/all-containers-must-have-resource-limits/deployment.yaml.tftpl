@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${deployment_name}
+  namespace: ${namespace_name}
+  labels:
+%{ for key, value in deployment_labels ~}
+    ${key}: ${value}
+%{ endfor ~}
+spec:
+  replicas: ${replica_count}
+  selector:
+    matchLabels:
+      app: ${app_name}
+  template:
+    metadata:
+      labels:
+        app: ${app_name}
+    spec:
+      containers:
+      - name: ${container_name}
+        image: ${container_image}
+        ports:
+        - containerPort: ${container_port}
+        env:
+        - name: ENV
+          value: ${environment}
+        - name: APP_VERSION
+          value: ${app_version}
+        livenessProbe:
+          httpGet:
+            path: ${health_check_path}
+            port: ${container_port}
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: ${health_check_path}
+            port: ${container_port}
+          initialDelaySeconds: 5
+          periodSeconds: 5
+%{ if add_resource_limits }
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 250m
+            memory: 256Mi
+%{ endif }
+      - name: ${container_name}-sidecar
+        image: ${sidecar_image}
+        ports:
+        - containerPort: ${sidecar_port}
+        env:
+        - name: SIDECAR_MODE
+          value: enabled
+%{ if add_resource_limits }
+        resources:
+          limits:
+            cpu: 200m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 64Mi
+%{ endif }
