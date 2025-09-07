@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# Update system
+yum update -y
+
+# Install basic packages
+yum install -y htop curl wget unzip
+
+# Install Docker (useful for GPU workloads if this were a real G5 instance)
+amazon-linux-extras install docker -y
+systemctl start docker
+systemctl enable docker
+usermod -a -G docker ec2-user
+
+# Create a simple web server for testing
+cat > /var/www/html/index.html << 'EOF'
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expensive Instance Test</title>
+</head>
+<body>
+    <h1>Instance Information</h1>
+    <p><strong>Instance Name:</strong> ${instance_name}</p>
+    <p><strong>Environment:</strong> ${environment}</p>
+    <p><strong>Instance ID:</strong> <span id="instance-id">Loading...</span></p>
+    <p><strong>Instance Type:</strong> <span id="instance-type">Loading...</span></p>
+    
+    <script>
+        // Fetch instance metadata
+        fetch('http://169.254.169.254/latest/meta-data/instance-id')
+            .then(response => response.text())
+            .then(data => document.getElementById('instance-id').textContent = data);
+            
+        fetch('http://169.254.169.254/latest/meta-data/instance-type')
+            .then(response => response.text())
+            .then(data => document.getElementById('instance-type').textContent = data);
+    </script>
+</body>
+</html>
+EOF
+
+# Start web server
+yum install -y httpd
+systemctl start httpd
+systemctl enable httpd
+
+# Set up monitoring and logging (for cost tracking simulation)
+cat > /home/ec2-user/cost-monitoring.sh << 'EOF'
+#!/bin/bash
+INSTANCE_TYPE=$(curl -s http://169.254.169.254/latest/meta-data/instance-type)
+INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+TIMESTAMP=$(date)
+
+echo "[$TIMESTAMP] Instance $INSTANCE_ID of type $INSTANCE_TYPE is running" >> /var/log/cost-monitoring.log
+EOF
+
+chmod +x /home/ec2-user/cost-monitoring.sh
+
+# Add cron job for cost monitoring
+echo "*/5 * * * * /home/ec2-user/cost-monitoring.sh" | crontab -
+
+# Create a log file that policy auditors might check
+echo "Instance provisioned at $(date) with type: $(curl -s http://169.254.169.254/latest/meta-data/instance-type)" > /var/log/instance-provision.log
