@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${deployment_name}
+  namespace: ${namespace_name}
+  labels:
+%{ for key, value in deployment_labels ~}
+    ${key}: ${value}
+%{ endfor ~}
+  annotations:
+    registry-policy-test: "${registry_type}-registry"
+    container-sources: "web=${container_image},sidecar=${sidecar_image},init=${init_container_image}"
+spec:
+  replicas: ${replica_count}
+  selector:
+    matchLabels:
+      app: ${app_name}
+  template:
+    metadata:
+      labels:
+        app: ${app_name}
+      annotations:
+        registry-source: "${registry_type}"
+    spec:
+      initContainers:
+      - name: ${init_container_name}
+        image: ${init_container_image}
+        command: ['sh', '-c']
+        args:
+        - |
+          echo "Init container from registry: ${init_container_image}"
+          echo "Registry type: ${registry_type}"
+          echo "Initialization complete"
+          sleep 5
+      containers:
+      - name: ${container_name}
+        image: ${container_image}
+        ports:
+        - containerPort: ${container_port}
+        env:
+        - name: ENVIRONMENT
+          value: ${environment}
+        - name: APP_VERSION
+          value: ${app_version}
+        - name: REGISTRY_TYPE
+          value: ${registry_type}
+        - name: IMAGE_SOURCE
+          value: ${container_image}
+        livenessProbe:
+          httpGet:
+            path: ${health_check_path}
+            port: ${container_port}
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: ${health_check_path}
+            port: ${container_port}
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          failureThreshold: 3
+        resources:
+          limits:
+            cpu: 200m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+      - name: ${sidecar_name}
+        image: ${sidecar_image}
+        ports:
+        - containerPort: ${sidecar_port}
+        env:
+        - name: SIDECAR_MODE
+          value: enabled
+        - name: REGISTRY_TYPE
+          value: ${registry_type}
+        - name: IMAGE_SOURCE
+          value: ${sidecar_image}
+        command: ['sh', '-c']
+        args:
+        - |
+          echo "Sidecar started from: ${sidecar_image}"
+          echo "Registry type: ${registry_type}"
+          while true; do
+            echo "Sidecar monitoring... $(date)"
+            sleep 30
+          done
+        resources:
+          limits:
+            cpu: 100m
+            memory: 64Mi
+          requests:
+            cpu: 50m
+            memory: 32Mi
