@@ -79,6 +79,20 @@ resource "kubernetes_deployment" "no_resource_limits" {
             initial_delay_seconds = 5
             period_seconds        = 5
           }
+
+          dynamic "resources" {
+            for_each = var.add_resource_limits ? [1] : []
+            content {
+              limits = {
+                cpu    = "500m"
+                memory = "512Mi"
+              }
+              requests = {
+                cpu    = "250m"
+                memory = "256Mi"
+              }
+            }
+          }
         }
 
         container {
@@ -92,6 +106,20 @@ resource "kubernetes_deployment" "no_resource_limits" {
           env {
             name  = "SIDECAR_MODE"
             value = "enabled"
+          }
+
+          dynamic "resources" {
+            for_each = var.add_resource_limits ? [1] : []
+            content {
+              limits = {
+                cpu    = "200m"
+                memory = "128Mi"
+              }
+              requests = {
+                cpu    = "100m"
+                memory = "64Mi"
+              }
+            }
           }
         }
       }

@@ -20,11 +20,22 @@ The deployment includes:
 1. **Main Container**: nginx web server (no resource limits)
 2. **Sidecar Container**: busybox utility container (no resource limits)
 
-Both containers intentionally lack:
+By default, both containers intentionally lack:
 - CPU limits (`resources.limits.cpu`)
 - Memory limits (`resources.limits.memory`)
 - CPU requests (`resources.requests.cpu`)
 - Memory requests (`resources.requests.memory`)
+
+## Conditional Resource Limits
+
+This template includes an `add_resource_limits` variable that allows you to toggle resource limits:
+
+- **When `add_resource_limits = false` (default)**: Containers have NO resource limits (for testing non-compliance)
+- **When `add_resource_limits = true`**: Containers include proper resource limits and requests
+
+### Resource Specifications (when enabled):
+- **Main Container**: 500m CPU / 512Mi memory (limits), 250m CPU / 256Mi memory (requests)
+- **Sidecar Container**: 200m CPU / 128Mi memory (limits), 100m CPU / 64Mi memory (requests)
 
 ## Usage
 
@@ -37,10 +48,16 @@ terraform apply
 
 ### Testing with Custom Values
 ```bash
+# Test non-compliant deployment (no resource limits)
 terraform apply \
   -var="namespace_name=policy-test" \
   -var="deployment_name=test-deployment" \
   -var="replica_count=1"
+
+# Test compliant deployment (with resource limits)
+terraform apply \
+  -var="add_resource_limits=true" \
+  -var="namespace_name=policy-test"
 ```
 
 ### Expected Behavior
@@ -76,6 +93,7 @@ If no policies are active:
 | container_image | Main container image | nginx:1.21 |
 | sidecar_image | Sidecar container image | busybox:1.35 |
 | environment | Environment label | test |
+| add_resource_limits | Add resource limits to containers | false |
 
 ## Security Warning
 

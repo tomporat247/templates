@@ -99,3 +99,9 @@ variable "health_check_path" {
   type        = string
   default     = "/"
 }
+
+variable "add_resource_limits" {
+  description = "When set to true, adds resource limits to containers. Default false for testing non-compliant deployments"
+  type        = bool
+  default     = false
+}
