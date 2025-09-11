@@ -92,6 +92,21 @@ terraform show -json tfplan > plan.json
 opa eval -d policy.rego -i plan.json "data.env0.deny[x]"
 ```
 
+### Testing Individual Public Access Block Properties
+```bash
+# Test ONLY block_public_acls misconfigured (other 3 properties compliant)
+terraform plan -var="misconfigure_single_property=block_public_acls" -out=tfplan
+
+# Test ONLY block_public_policy misconfigured  
+terraform plan -var="misconfigure_single_property=block_public_policy" -out=tfplan
+
+# Test ONLY ignore_public_acls misconfigured
+terraform plan -var="misconfigure_single_property=ignore_public_acls" -out=tfplan
+
+# Test ONLY restrict_public_buckets misconfigured
+terraform plan -var="misconfigure_single_property=restrict_public_buckets" -out=tfplan
+```
+
 ### Testing Different Public ACL Types
 ```bash
 # Test with public-read-write ACL
@@ -118,6 +133,15 @@ OPA should return multiple deny messages:
 ### Compliant Mode:
 OPA should return empty result (no deny messages).
 
+### Single Property Misconfiguration:
+When using `misconfigure_single_property`, OPA should return exactly ONE deny message:
+- `misconfigure_single_property=block_public_acls` → `"S3 bucket must enable 'block_public_acls'"`
+- `misconfigure_single_property=block_public_policy` → `"S3 bucket must enable 'block_public_policy'"`
+- `misconfigure_single_property=ignore_public_acls` → `"S3 bucket must enable 'ignore_public_acls'"`
+- `misconfigure_single_property=restrict_public_buckets` → `"S3 bucket must enable 'restrict_public_buckets'"`
+
+This validates that each OPA rule works independently.
+
 ## Variables
 
 | Variable | Description | Default |
@@ -128,6 +152,7 @@ OPA should return empty result (no deny messages).
 | public_acl_type | Type of public ACL to test | public-read |
 | attach_public_policy | Attach public bucket policy | true |
 | create_secondary_bucket | Create secondary bucket for testing | true |
+| misconfigure_single_property | Misconfigure only one public access block property | null |
 
 ## Testing Scenarios
 

@@ -25,7 +25,12 @@ locals {
   selected_acl = var.enable_public_access ? local.non_compliant_acl : local.compliant_acl
   
   # Public access block settings
-  public_access_block = var.enable_public_access ? {
+  public_access_block = var.misconfigure_single_property != null ? {
+    block_public_acls       = var.misconfigure_single_property == "block_public_acls" ? false : true
+    block_public_policy     = var.misconfigure_single_property == "block_public_policy" ? false : true
+    ignore_public_acls      = var.misconfigure_single_property == "ignore_public_acls" ? false : true
+    restrict_public_buckets = var.misconfigure_single_property == "restrict_public_buckets" ? false : true
+  } : var.enable_public_access ? {
     block_public_acls       = false
     block_public_policy     = false
     ignore_public_acls      = false
@@ -153,8 +158,8 @@ resource "aws_s3_bucket_public_access_block" "secondary_bucket_pab" {
   count  = var.create_secondary_bucket ? 1 : 0
   bucket = aws_s3_bucket.secondary_test_bucket[0].id
 
-  block_public_acls       = var.enable_public_access ? false : true
-  block_public_policy     = var.enable_public_access ? false : true
-  ignore_public_acls      = var.enable_public_access ? false : true
-  restrict_public_buckets = var.enable_public_access ? false : true
+  block_public_acls       = local.public_access_block.block_public_acls
+  block_public_policy     = local.public_access_block.block_public_policy
+  ignore_public_acls      = local.public_access_block.ignore_public_acls
+  restrict_public_buckets = local.public_access_block.restrict_public_buckets
 }

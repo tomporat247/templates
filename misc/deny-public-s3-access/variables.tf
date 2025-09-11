@@ -40,6 +40,18 @@ variable "create_secondary_bucket" {
   default     = true
 }
 
+variable "misconfigure_single_property" {
+  description = "Misconfigure only one specific public access block property for targeted testing. Set to null to use enable_public_access behavior"
+  type        = string
+  default     = null
+  validation {
+    condition = var.misconfigure_single_property == null || contains([
+      "block_public_acls", "block_public_policy", "ignore_public_acls", "restrict_public_buckets"
+    ], var.misconfigure_single_property)
+    error_message = "Must be one of: block_public_acls, block_public_policy, ignore_public_acls, restrict_public_buckets, or null."
+  }
+}
+
 variable "tags" {
   description = "Tags to apply to all S3 resources"
   type        = map(string)
